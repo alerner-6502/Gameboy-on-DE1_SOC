@@ -1,0 +1,8 @@
+Use 7zip to combine "gameboy.7z.00X" files into a single "gameboy.img" file
+
+
+
+gameboy.img  - 4GB SD card linux image for DE1_SoC. All necessary scripts, executables and FPGA configuration files are preinstalled.
+               All necessary actions are performed automatically at bootup. External interface (such as PUTTY) is not required.
+               Install this image onto your 4GB SD card, and power up your DE1-SoC for instant gameboy experience.
+               DE1_SoC_SD linux image had been used as a template.
