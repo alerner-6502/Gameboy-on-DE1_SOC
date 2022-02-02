@@ -1,0 +1,1 @@
+Use rufus-3.15p.exe to write "DE1-SoC_SD.img" image file (zipped) onto your 4GB micro SD card.

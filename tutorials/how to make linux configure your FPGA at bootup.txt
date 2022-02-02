@@ -1,0 +1,49 @@
+
+1. Ensure that the MSEL switches on the DE1-SoC have been configured to MSEL[4:0] = 5'b01010.
+   Note: Don't get tricked by the "ON" label on the switch! It's actually the other way around!
+         Your switch should look like this: (MSEL[4:0] = 5'b01010)
+		 
+		 0
+		   +-------------+         MSEL[4:0] = 5'b10010  // FPGA configured from EPCS
+		   | *   *   * * |         MSEL[4:0] = 5'b01010  // FPGA configured from HPS software: Linux
+		   |   *   *     |
+		   +-------------+
+		 1   0 1 2 3 4 5
+		       MSEL
+
+2. Convert your SOF file to RBF file. To do this, use a tool within quartus "File->Convert Programming Files...".
+   a) Select "Raw Binary File (.rbf)" as your programming file type.
+   b) Select "Passive Parallel x16" as your mode
+   c) Specify the destination file name in the File name field.
+   d) Click and highlight SOF Data then add the .SOF file that you wish to convert by clicking Add File....
+   e) Click and highlight the newly added .SOF file in the list, then select Properties. You should see a new window pop up.
+      Enable file compression by ticking the checkbox, then press OK.
+   f) Click Generate to generate the .RBF file. 
+   
+3. Transfer your .RBF file to your linux boot up SD card (via USB drive for example)
+
+4. Navigate to "/etc/init.d/" and create a "programfpga" text file with VI.
+
+5. Edit "programfpga" file by entering the following content:
+   Note: use VI's documentation to help you out.
+
+	echo 0 > /sys/class/fpga-bridge/fpga2hps/enable
+	echo 0 > /sys/class/fpga-bridge/hps2fpga/enable
+	echo 0 > /sys/class/fpga-bridge/lwhps2fpga/enable
+	dd if=/home/root/soc_system.rbf of=/dev/fpga0 bs=1M    <--- provide full path to your .RBF file!!!
+	echo 1 > /sys/class/fpga-bridge/fpga2hps/enable
+	echo 1 > /sys/class/fpga-bridge/hps2fpga/enable
+	echo 1 > /sys/class/fpga-bridge/lwhps2fpga/enable
+	sh -c /home/root/usb_joystick                          <--- optional: provide full path to your linux executable (if you want it to start at boot up)
+
+6. Save file and quit.
+
+7. Grant "programfpga" file execution permission by executing the "chmod u+rwx programfpga" command
+
+8. You may check your script by executing it with the "/etc/init.d/programfpga start" command.
+
+9. Add your file to the startup list by executing the "update-rc.d programfpga defaults" command
+
+10. Reboot your DE1-SoC board.
+
+

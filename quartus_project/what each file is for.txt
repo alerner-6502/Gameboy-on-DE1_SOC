@@ -1,0 +1,3 @@
+gameboy_emulator.rbf       - SOF file converted to RBF format. Used by linux to configure fpga.
+gameboy_emulator.sof       - SOF file of the completed project. Can be uploaded manually via Quartus (uses HPS's AXI bus)
+gameboy_emulator_FINAL.zip - Quartus gameboy project file

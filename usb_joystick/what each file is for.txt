@@ -1,0 +1,21 @@
+hps_0.h                  - Header file that contains base addresses for AXI slaves (buttons, gpio, leds, switches, etc). Referenced by main.c file. 
+                           Based on the golden standard template (de1_soc_GHRD)
+
+main.c                   - Main code file
+
+Makefile                 - Use this file to compile main.c and hps_0.h. Product: usb_joystick executable and main.o file.
+                           REMOVE FILES "main.o" AND "usb_joystick" IS YOU WISH TO RECOMPLIE C CODE!
+
+programfpga              - Script for linux. This file is placed into /etc/init.d directory to be executed at bootup. 
+                           Programs FPGA fabric by referencing an RBF file, and launches the usb_joystick executable.
+
+soc_system_only_leds.rbf - RBF file for configuring FPGA through linux. Based on the golden standard template (de1_soc_GHRD). Only LED PIO is implemented.
+                           Use can use this file to test USB controllers independently.
+
+soc_system_only_leds.sof - SOF file for configuring FPGA through quartus programmer. Based on the golden standard template (de1_soc_GHRD). Only LED PIO is implemented.
+                           Use can use this file to test USB controllers independently.
+
+usb_joystick             - Linux executable. Run this file to read usb jpysticks and keyboards. Decodes messages from /dev/input/event0 file and controls LED PIO though
+                           HPS's AXI bus.
+						   
+main.o                   - C code compilation byproduct. Remove this file if you wish to recompile usb_joystick

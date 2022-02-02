@@ -1,0 +1,54 @@
+How to transfer files from USB to boot SD card:
+
+01. Inset boot SD card into your DE1-SoC
+02. Make sure BOOTSEL[4:0] switches on your FPGA are set to 5'b01101
+03. Turn on your FPGA
+04. Connect micro usb cable to the UART_TO_USB port on your FPGA.
+05. Connect the other end of the micro usb cable to your computer
+06. Run PuTTY.exe
+07. Select "Session" in the category tree.
+07. Select "serial" as the connection type and enter "COM7" as the serial line and "115200" for speed
+07. Enter "DE1-SoC" into the "Save Session" window and press "Save". A new "DE1-SoC" entry should appear next to "Default Settings"
+07. Double click on the "DE1-SoC" entry to start communicating. A linux terminal should open up.
+08. Press ENTER
+
+09. Enter "root" (password) and press ENTER
+10. Check the directory with "-ls -la"
+11. Create a new directory with "mkdir". For example "mkdir my_usb_mount_directory"
+12. Insert your USB drive into the USB slot on your FPGA board
+13. Log text should appear in the terminal, press ENTER
+14. Type "lsusb" and press ENTER. Verify that your USB device has been found
+    Example:
+	
+	root@socfpga:~# lsusb
+	Bus 001 Device 002: ID 0424:2512 Standard Microsystems Corp. USB 2.0 Hub
+	Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+	Bus 001 Device 004: ID 0930:6545 Toshiba Corp. Kingston DataTraveler 102 Flash Drive / HEMA Flash Drive 2 GB / PNY Attache 4GB Stick   <--- My USB drive
+	
+15. Type "lsblk" and press ENTER. Varius that your USB device has a dedicated partition.
+    Example:
+	
+	root@socfpga:~# lsblk
+	NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+	sda           8:0    1 955.5M  0 disk
+	`-sda1        8:1    1 954.5M  0 part                       <--- My USB drive partition (not mounted yet)
+	mmcblk0     179:0    0   3.7G  0 disk
+	|-mmcblk0p1 179:1    0 819.2M  0 part
+	|-mmcblk0p2 179:2    0     1G  0 part /
+	`-mmcblk0p3 179:3    0     1M  0 part
+	
+16. Mount your USB drive partition to your folder: Type "mount /dev/sda1 my_usb_mount_directory" and press ENTER
+17. Navigate to your folder: "cd my_usb_mount_directory"
+18. Type "ls -la" and press ENTER to verify USB drive contents
+
+19. Use "pwm" command to get your current directory name
+20. Use "cd ~" to navigate to your home directory. It's not the top directory!
+21. To copy a file use the "cp" command. For example: "cp /home/root/my_usb_mount_directory/miku.txt /home/root/miku_copy.txt"
+22. To copy a directoy use "cp -R" command. For example: "cp -R /home/root/my_usb_mount_directory/Lecture37 /home/root/Lecture37_copy"
+23. To view text files use "cat". For example: "cat miku_copy.txt"
+
+24. To unmount your USB drive from the folder, use the "umount" command. Example: "umount my_usb_mount_directory" command
+
+
+
+

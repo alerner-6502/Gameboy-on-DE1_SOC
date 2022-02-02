@@ -1,0 +1,12 @@
+1. To create or edit a file type "vi <filename>" and press ENTER
+
+2. Initially, you'll be in VI's command mode.
+
+3. In command mode you can save, copy, delete and perform various other actions with the file as a whole.
+   You cannot edit text while in command mode. Almost all keyboard keys have a function here.
+   
+4. Press "i" to enter VI's insert mode. You may now edit text.
+
+5. To save and exit you must first leave VI's insert mode by pressing the ESCAPE key.
+
+6. Type ":wq" and press enter to save file and exit VI
